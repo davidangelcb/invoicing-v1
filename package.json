@@ -1,0 +1,26 @@
+{
+    "name": "invoicing",
+    "version": "1.0.0",
+    "description": "send invoices to new relic",
+    "main": "index.js",
+    "scripts": {
+        "deploy": "serverless deploy",
+        "local": "serverless invoke local --function createInvoice --path data.json",
+        "invoke": "serverless invoke --function createInvoice --path data.json",
+        "test": "jest"
+    },
+    "author": "David Cama",
+    "license": "ISC",
+    "dependencies": {
+        "@aws-sdk/client-lambda": "^3.391.0",
+        "axios": "^1.7.4",
+        "dotenv": "^16.4.5",
+        "googleapis": "^142.0.0",
+        "mongodb": "^5.7.0",
+        "pdf-parse": "^1.1.1",
+        "pdf2json": "^3.1.4"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
+}

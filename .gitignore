@@ -1,0 +1,17 @@
+# package directories
+node_modules
+jspm_packages
+back
+# Serverless directories
+.serverless
+
+# secrets files
+.secrets.json
+.secrets.dev.json
+.secrets.uat.json
+.secrets.prod.json
+data.json
+
+# logs
+logs
+*.log

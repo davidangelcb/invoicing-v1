@@ -1,0 +1,38 @@
+custom:
+  secrets: ${file(.secrets.json)}
+  stage: ${opt:stage, self:custom.secrets.NODE_ENV}
+
+service: invoicing
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${self:custom.stage}
+  region: ${self:custom.secrets.AWS_REGION}
+
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "lambda:InvokeFunction"
+            - "lambda:InvokeAsync"
+          Resource: "*"
+  environment:
+    MONGODB_URI: ${self:custom.secrets.MONGODB_URI}
+    MONGODB_DATABASE: ${self:custom.secrets.MONGODB_DATABASE}
+    REGION: ${self:provider.region}
+    STAGE: ${self:custom.stage}
+    NEWRELIC_LICENSE: ${self:custom.secrets.NEWRELIC_LICENSE}
+    NEWRELIC_ACCOUNT: ${self:custom.secrets.NEWRELIC_ACCOUNT}
+
+functions:
+  createInvoice:
+    handler: src/handlers/index.createInvoice
+    events:
+      - schedule: rate(5 minutes) 
+  createToken:
+    handler: src/handlers/token.createToken
+  pdf:
+    handler: src/handlers/read.pdf
